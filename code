@@ -1,0 +1,126 @@
+--------------------------LED Patterns / BLINKING---------------------------
+CODE :-
+
+#Blink LED Program
+#Connect the LED to GPIO 22 Pin
+#LED Blink Progarm
+#Connect the LED to GPIO22 (i.e. Physical Pin15)
+
+#import GPIO and time library
+import RPi.GPIO as GPIO
+from time import sleep
+GPIO.setmode(GPIO.BCM) #set the Pin mode you will be working with
+ledPin = 22 #this is GPIO22 pin i.e Physical Pin15
+#setup the ledPin(i.e. GPIO22) as output
+GPIO.setup(ledPin, GPIO.OUT)
+GPIO.output(ledPin, False)
+try:
+while True:
+GPIO.output(ledPin, True) #Set the LED Pin to HIGH
+print("LED ON")
+sleep(1) #Wait for 1 sec
+GPIO.output(ledPin, False) #Set the LED Pin to LOW
+print("LED OFF")
+sleep(1) #wait for 1 sec
+finally:
+#reset the GPIO Pins
+GPIO.output(ledPin, False)
+GPIO.cleanup()
+#end of code
+
+----------------------Capturing Images with Raspberry Pi and Pi Camera------------------------------------
+
+Code:
+#Camera Program
+# import time and picamera library
+from time import sleep
+from picamera import PiCamera
+camera = PiCamera()
+camera.resolution = (1280, 720) # selecting resolution 1280x720 px
+camera.start_preview()
+# Camera warm-up time
+sleep(2)
+camera.capture('/home/pi/Pictures/newImage.jpg') #capture and save image at specified location
+camera.stop_preview()
+#end of code
+
+
+--------------------------RFID Module Interfacing with Raspberry Pi--------------------------------
+
+CODE :-
+import RPi.GPIO as GPIO
+import time
+import serial #import serial module
+GPIO.setmode(GPIO.BOARD)
+greenLED = 37
+redLED = 35
+buzzer = 33
+GPIO.setup(greenLED, GPIO.OUT)
+GPIO.setup(redLED, GPIO.OUT)
+GPIO.setup(buzzer, GPIO.OUT)
+GPIO.output(greenLED, False)
+GPIO.output(redLED, False)
+GPIO.output(buzzer, True)
+time.sleep(0.1)
+GPIO.output(buzzer, False)
+time.sleep(0.1)
+GPIO.output(buzzer, True)
+time.sleep(0.1)
+GPIO.output(buzzer, False)
+time.sleep(0.1)
+def read_rfid ():
+ser = serial.Serial ("/dev/ttyUSB0") #Open named port
+ser.baudrate = 9600 #Set baud rate to 9600
+data = ser.read(12) #Read 12 characters from serial port to data
+ser.close () #Close port
+return data #Return data
+try:
+while True:
+id = read_rfid () #Function call
+
+35 EDKITS ELECTRONICS
+
+print (id) #Print RFID
+if id=="400034E165F0": #replace the ID number with your ID number
+print("Acces Granted")
+GPIO.output(greenLED, True)
+GPIO.output(redLED, False)
+GPIO.output(buzzer, False)
+time.sleep(2)
+else:
+print("Access Denied")
+GPIO.output(greenLED, False)
+GPIO.output(redLED, True)
+GPIO.output(buzzer, True)
+time.sleep(2)
+GPIO.output(greenLED, False)
+GPIO.output(redLED, False)
+GPIO.output(buzzer, False)
+finally:
+GPIO.cleanup()
+
+--------------------------------------Displaying Time--------------------------------------
+Code:
+#Program to display Time on 4-digit Seven segment display
+from time import sleep
+import tm1637
+try:
+import thread
+except ImportError:
+import _thread as thread
+# Initialize the clock (GND, VCC=3.3V, Example Pins are DIO-20 and CLK21)
+Display = tm1637.TM1637(CLK=21, DIO=20, brightness=1.0)
+try:
+print "Starting clock in the background (press CTRL + C to stop):"
+Display.StartClock(military_time=True)
+Display.SetBrightness(1.0)
+while True:
+Display.ShowDoublepoint(True)
+sleep(1)
+Display.ShowDoublepoint(False)
+sleep(1)
+Display.StopClock()
+thread.interrupt_main()
+except KeyboardInterrupt:
+print "Properly closing the clock and open GPIO pins"
+Display.cleanup()
