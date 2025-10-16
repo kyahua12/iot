@@ -1,11 +1,15 @@
 --------------------------LED Patterns / BLINKING---------------------------
-CODE :-
+STEPS:
+1. Connect the GPIO22 (i.e. Physical Pin 15) Pin od raspberry pi to one end of the resistor.
+2. Connect another end of resistor to the positive end (anode) of LED
+3. Connect the negative end (cathode) of LED to Ground of raspberry pi.
+4. Then Power on your raspberry pi
 
+CODE :-
 #Blink LED Program
 #Connect the LED to GPIO 22 Pin
 #LED Blink Progarm
 #Connect the LED to GPIO22 (i.e. Physical Pin15)
-
 #import GPIO and time library
 import RPi.GPIO as GPIO
 from time import sleep
@@ -29,8 +33,14 @@ GPIO.cleanup()
 #end of code
 
 ----------------------Capturing Images with Raspberry Pi and Pi Camera------------------------------------
+STEPS:-
+1. Locate the camera port and connect the camera:
+2. Start up the Pi.
+3. Open the Raspberry Pi Configuration Tool from the main menu.
+4. Ensure the camera software is enabled. If it's not enabled, enable it and reboot your Pi to
+begin.
 
-Code:
+CODE:
 #Camera Program
 # import time and picamera library
 from time import sleep
@@ -46,6 +56,15 @@ camera.stop_preview()
 
 
 --------------------------RFID Module Interfacing with Raspberry Pi--------------------------------
+STEPS:-
+1. Connect TX pin of Module to Rx Pin of USB to TTL converter
+2. Connect the GND Pin of Module to GND Pin of USB to TTL converter
+3. Connect the positive of 5V external supply to VCC pin of module.
+4. Connect the negative/GND of 5V external supply to GND of Module
+5. Finally connect the USB to TTL converter to USB of raspberry Pi
+6. Connect the green LED to Pin37 of raspberry Pi
+7. Connect the red LED to Pin35 of raspberry pi
+8. And connect the buzzer to Pin33 of raspberry Pi.
 
 CODE :-
 import RPi.GPIO as GPIO
@@ -77,9 +96,6 @@ return data #Return data
 try:
 while True:
 id = read_rfid () #Function call
-
-35 EDKITS ELECTRONICS
-
 print (id) #Print RFID
 if id=="400034E165F0": #replace the ID number with your ID number
 print("Acces Granted")
@@ -100,7 +116,13 @@ finally:
 GPIO.cleanup()
 
 --------------------------------------Displaying Time--------------------------------------
-Code:
+STEPS:-
+1. Connect the Pin2 (5V) of Rpi to Vcc pin of Module
+2. Connect Pin 6 (GND) of Rpi to GND of Module
+3. Connect Pin38 (GPIO20) of Rpi to DIO of Module
+4. Lastly connect Pin 40 (GPIO21) of Rpi to CLK of Module
+
+CODE:
 #Program to display Time on 4-digit Seven segment display
 from time import sleep
 import tm1637
